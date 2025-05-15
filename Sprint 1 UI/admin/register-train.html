@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Register Train</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    rel="stylesheet"
+  />
+  <style>
+    body {
+      background-color: #f5f0e1;
+      font-family: 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .card {
+      background-color: #fff9f0;
+      border: 1px solid #d2b48c;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      max-width: 500px;
+      width: 100%;
+    }
+    h3 {
+      color: #6e4f3a;
+      margin-bottom: 20px;
+      font-weight: 600;
+      text-align: center;
+    }
+    .form-label {
+      font-weight: 500;
+    }
+    .btn-primary {
+      background-color: #a97442;
+      border-color: #a97442;
+      width: 100%;
+    }
+    .btn-primary:hover {
+      background-color: #865c36;
+      border-color: #865c36;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h3><i class="bi bi-train-front-fill"></i> Register a Train</h3>
+    <div id="message" class="text-success font-weight-bold mb-3"></div>
+    <form id="trainForm" novalidate>
+      <div class="mb-3">
+        <label for="trainName" class="form-label"><i class="bi bi-train-front"></i> Train Name</label>
+        <input type="text" class="form-control" id="trainName" required />
+      </div>
+      <div class="mb-3">
+        <label for="seats" class="form-label"><i class="bi bi-people-fill"></i> Number of Seats</label>
+        <input type="number" class="form-control" id="seats" min="1" required />
+      </div>
+      <div class="mb-3">
+        <label for="fromStation" class="form-label"><i class="bi bi-arrow-right-circle-fill"></i> From</label>
+        <input type="text" class="form-control" id="fromStation" required />
+      </div>
+      <div class="mb-3">
+        <label for="toStation" class="form-label"><i class="bi bi-arrow-left-circle-fill"></i> To</label>
+        <input type="text" class="form-control" id="toStation" required />
+      </div>
+      <div class="mb-3">
+        <label for="ownership" class="form-label"><i class="bi bi-building"></i> Ownership</label>
+        <input type="text" class="form-control" id="ownership" required />
+      </div>
+      <button type="submit" class="btn btn-primary">
+        <i class="bi bi-check-circle-fill"></i> Register Train
+      </button>
+      <button type="submit" class="btn btn-secondary mt-2" onclick="window.location.href='home.html'">
+        <i class="bi bi-check-circle-fill"></i> Back to Home
+      </button>
+    </form>
+  </div>
+  <script src="adminScript.js"></script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>View Tickets</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #f5f0e1;
+      font-family: 'Segoe UI', sans-serif;
+      min-height: 100vh;
+    }
+    .navbar-dark {
+      background-color: #8b5e3c !important;
+    }
+    .navbar-brand, .nav-link {
+      color: #fff !important;
+      font-weight: 600;
+    }
+    .nav-link.active {
+      text-decoration: underline;
+    }
+    .container {
+      margin-top: 40px;
+      background-color: #fff9f0;
+      border: 1px solid #d2b48c;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      max-width: 900px;
+    }
+    h3 {
+      color: #6e4f3a;
+      margin-bottom: 30px;
+      font-weight: 700;
+      text-align: center;
+    }
+    table {
+      background-color: #fff;
+    }
+    .btn-cancel {
+      color: white;
+      background-color: #d9534f;
+      border: none;
+    }
+    .btn-cancel:hover {
+      background-color: #c9302c;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <a class="navbar-brand" href="home.html">
+      <i class="bi bi-train-front-fill"></i> Train Booking
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="home.html">
+            <i class="bi bi-house-fill"></i> Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="book-ticket.html">
+            <i class="bi bi-ticket-detailed-fill"></i> Book Ticket
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="view-tickets.html">
+            <i class="bi bi-list-ul"></i> View Tickets
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="update-details.html">
+            <i class="bi bi-pencil-square"></i> Update Details
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-danger" href="../index.html">
+            <i class="bi bi-box-arrow-right"></i> Logout
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h3><i class="bi bi-ticket-perforated-fill"></i> Your Booked Tickets</h3>
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped text-center">
+        <thead class="thead-dark">
+          <tr>
+            <th><i class="bi bi-receipt"></i> Ticket ID</th>
+            <th><i class="bi bi-train-front"></i> Train ID</th>
+            <th><i class="bi bi-person-circle"></i> User ID</th>
+            <th><i class="bi bi-person"></i> Name</th>
+            <th><i class="bi bi-box-arrow-in-right"></i> Boarding</th>
+            <th><i class="bi bi-box-arrow-in-left"></i> Destination</th>
+            <th><i class="bi bi-clock-history"></i> Boarding Date & Time</th>
+            <th><i class="bi bi-clock"></i> Arrival Date & Time</th>
+            <th><i class="bi bi-123"></i> Tickets</th>
+            <th><i class="bi bi-x-circle-fill"></i> Cancel</th>
+          </tr>
+        </thead>
+        <tbody id="ticketTableBody">
+          <tr>
+            <td>TK001</td>
+            <td>Train_202</td>
+            <td>USER123</td>
+            <td>Prakarsh Verma</td>
+            <td>Chennai</td>
+            <td>Bangalore</td>
+            <td>25-04-2025 08:00</td>
+            <td>26-04-2025 19:00</td>
+            <td>1</td>
+            <td>
+              <button class="btn btn-cancel btn-sm delete-btn" onclick="confirmDelete('TK001')">
+                <i class="bi bi-x-circle-fill"></i> Cancel
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="customerScript.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

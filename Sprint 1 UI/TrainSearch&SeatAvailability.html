@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Train Search and Seat Availability</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #f5f0e1;
+      font-family: 'Segoe UI', sans-serif;
+      min-height: 100vh;
+    }
+    .navbar-dark {
+      background-color: #8b5e3c !important;
+    }
+    .navbar-brand, .nav-link {
+      color: #fff !important;
+      font-weight: 600;
+    }
+    .nav-link.active {
+      text-decoration: underline;
+    }
+    .container {
+      margin-top: 40px;
+      background-color: #fff9f0;
+      border: 1px solid #d2b48c;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      max-width: 800px;
+    }
+    h3 {
+      color: #6e4f3a;
+      margin-bottom: 30px;
+      font-weight: 700;
+      text-align: center;
+    }
+    .btn-custom {
+      background-color: #8b5e3c;
+      color: white;
+    }
+    .btn-custom:hover {
+      background-color: #734c2e;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <a class="navbar-brand" href="index.html">
+      <i class="bi bi-train-front-fill"></i> Rail Connect
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+        <a class="nav-link" href="index.html">
+            <i class="bi bi-ticket-detailed-fill"></i> Home
+        </a>
+        </li>
+        <!-- <li class="nav-item">
+          <a class="nav-link active" href="#train-search">
+            <i class="bi bi-search"></i> Train Search
+          </a>
+        </li> -->
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container" id="train-search">
+    <h3><i class="bi bi-search"></i> Search Trains</h3>
+    <form id="searchForm" class="row g-3 mb-4" onsubmit="event.preventDefault(); searchTrains();">
+      <div class="col-md-4">
+        <input type="text" id="searchOrigin" class="form-control" placeholder="Origin" list="locations" required />
+      </div>
+      <div class="col-md-4">
+        <input type="text" id="searchDestination" class="form-control" placeholder="Destination" list="locations" required />
+      </div>
+      <datalist id="locations">
+        <option value="Solapur">
+        <option value="Ahmedabad">
+        <option value="Mumbai">
+        <option value="Gandhinagar">
+        <option value="Surat">
+      </datalist>
+      <div class="col-md-4">
+        <button class="btn btn-secondary w-100" type="submit">
+          <i class="bi bi-search"></i> Search Trains
+        </button>
+      </div>
+    </form>
+
+    <div id="trainResults"></div>
+  </div>
+
+  <script>
+    // Dummy train data
+    const dummyTrains = [
+      { train: "Express A", origin: "Solapur", destination: "Mumbai", seats: 200 },
+      { train: "Superfast B", origin: "Ahmedabad", destination: "Surat", seats: 150 },
+      { train: "Local C", origin: "Gandhinagar", destination: "Mumbai", seats: 130 },
+      { train: "Express D", origin: "Mumbai", destination: "Ahmedabad", seats: 100 },
+      { train: "Superfast E", origin: "Surat", destination: "Solapur", seats: 80 },
+      { train: "Local F", origin: "Gandhinagar", destination: "Surat", seats: 50 },
+      { train: "Express G", origin: "Ahmedabad", destination: "Solapur", seats: 120 },
+      { train: "Superfast H", origin: "Mumbai", destination: "Gandhinagar", seats: 90 },
+      { train: "Local I", origin: "Surat", destination: "Ahmedabad", seats: 60 },
+      { train: "Express J", origin: "Solapur", destination: "Gandhinagar", seats: 110 },
+      { train: "Superfast K", origin: "Mumbai", destination: "Surat", seats: 140 },
+      { train: "Local L", origin: "Ahmedabad", destination: "Gandhinagar", seats: 70 },
+      { train: "Express M", origin: "Gandhinagar", destination: "Solapur", seats: 160 },
+      { train: "Superfast N", origin: "Surat", destination: "Mumbai", seats: 180 },
+      { train: "Local O", origin: "Ahmedabad", destination: "Mumbai", seats: 130 },
+      { train: "Express P", origin: "Solapur", destination: "Ahmedabad", seats: 140 },
+      { train: "Superfast Q", origin: "Mumbai", destination: "Gandhinagar", seats: 120 },
+      { train: "Local R", origin: "Surat", destination: "Gandhinagar", seats: 90 },
+      { train: "Express S", origin: "Ahmedabad", destination: "Solapur", seats: 110 },
+      { train: "Superfast T", origin: "Mumbai", destination: "Surat", seats: 100 }
+    ];
+
+    // Save dummy data to localStorage if not present
+    if (!localStorage.getItem('trains')) {
+      localStorage.setItem('trains', JSON.stringify(dummyTrains));
+    }
+
+    function toTitleCase(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    }
+
+    function searchTrains() {
+      let origin = document.getElementById('searchOrigin').value.trim();
+      let destination = document.getElementById('searchDestination').value.trim();
+      const allowedLocations = ["Solapur", "Ahmedabad", "Mumbai", "Gandhinagar", "Surat"];
+
+      // Normalize input to Title Case
+      origin = toTitleCase(origin);
+      destination = toTitleCase(destination);
+
+      if (!allowedLocations.includes(origin) || !allowedLocations.includes(destination)) {
+        alert("No Train for that route");
+        document.getElementById('trainResults').innerHTML = '';
+        return;
+      }
+
+      const trains = JSON.parse(localStorage.getItem('trains')) || [];
+      const results = trains.filter(
+        t => t.origin === origin && t.destination === destination
+      );
+
+      if (results.length === 0) {
+        alert("No Train for that route");
+        document.getElementById('trainResults').innerHTML = '';
+        return;
+      }
+
+      let html = '';
+      results.forEach(t => {
+        html += `
+          <div class="card mb-2">
+            <div class="card-body">
+              <h5 class="card-title">${t.train}</h5>
+              <p class="card-text">From: <b>${t.origin}</b> &rarr; To: <b>${t.destination}</b></p>
+              <p class="card-text">Seats Available: <b>${t.seats}</b></p>
+            </div>
+          </div>
+        `;
+      });
+      document.getElementById('trainResults').innerHTML = html;
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

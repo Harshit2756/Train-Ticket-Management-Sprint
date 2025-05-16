@@ -99,3 +99,42 @@ document.getElementById("registerForm").addEventListener("submit", function (e){
     }
 
 });
+
+// Use the same dummyTrains as in TrainSearch&SeatAvailability
+const dummyTrains = [
+  { train: "Express A", origin: "Solapur", destination: "Mumbai", seats: 200 },
+  { train: "Superfast B", origin: "Ahmedabad", destination: "Surat", seats: 150 },
+  // ...rest of your dummyTrains...
+];
+
+// Update train dropdown based on origin/destination
+document.getElementById('origin').addEventListener('input', updateTrainOptions);
+document.getElementById('destination').addEventListener('input', updateTrainOptions);
+
+function toTitleCase(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
+
+function updateTrainOptions() {
+  const origin = toTitleCase(document.getElementById('origin').value.trim());
+  const destination = toTitleCase(document.getElementById('destination').value.trim());
+  const trainSelect = document.getElementById('trainSelect');
+  trainSelect.innerHTML = '<option value="">Select Train</option>';
+
+  if (!origin || !destination) return;
+
+  const matches = dummyTrains.filter(t => t.origin === origin && t.destination === destination);
+  matches.forEach(t => {
+    const opt = document.createElement('option');
+    opt.value = t.train;
+    opt.textContent = `${t.train} (${t.seats} seats)`;
+    trainSelect.appendChild(opt);
+  });
+
+  if (matches.length === 0) {
+    const opt = document.createElement('option');
+    opt.value = '';
+    opt.textContent = 'No Train for that route';
+    trainSelect.appendChild(opt);
+  }
+}

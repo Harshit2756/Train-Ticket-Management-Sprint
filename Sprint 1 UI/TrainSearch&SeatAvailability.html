@@ -68,13 +68,7 @@
         <li class="nav-item">
         <a class="nav-link" href="index.html">
             <i class="bi bi-ticket-detailed-fill"></i> Home
-        </a>
-        </li>
-        <!-- <li class="nav-item">
-          <a class="nav-link active" href="#train-search">
-            <i class="bi bi-search"></i> Train Search
-          </a>
-        </li> -->
+        </a></li>
       </ul>
     </div>
   </nav>
@@ -82,11 +76,14 @@
   <div class="container" id="train-search">
     <h3><i class="bi bi-search"></i> Search Trains</h3>
     <form id="searchForm" class="row g-3 mb-4" onsubmit="event.preventDefault(); searchTrains();">
-      <div class="col-md-4">
+      <div class="col-md-3">
         <input type="text" id="searchOrigin" class="form-control" placeholder="Origin" list="locations" required />
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <input type="text" id="searchDestination" class="form-control" placeholder="Destination" list="locations" required />
+      </div>
+      <div class="col-md-3">
+        <input placeholder="Date" type="date" id="searchDate" class="form-control" required />
       </div>
       <datalist id="locations">
         <option value="Solapur">
@@ -95,7 +92,7 @@
         <option value="Gandhinagar">
         <option value="Surat">
       </datalist>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <button class="btn btn-secondary w-100" type="submit">
           <i class="bi bi-search"></i> Search Trains
         </button>
@@ -106,34 +103,32 @@
   </div>
 
   <script>
-    // Dummy train data
+    // Dummy train data with seat classes
     const dummyTrains = [
-      { train: "Express A", origin: "Solapur", destination: "Mumbai", seats: 200 },
-      { train: "Superfast B", origin: "Ahmedabad", destination: "Surat", seats: 150 },
-      { train: "Local C", origin: "Gandhinagar", destination: "Mumbai", seats: 130 },
-      { train: "Express D", origin: "Mumbai", destination: "Ahmedabad", seats: 100 },
-      { train: "Superfast E", origin: "Surat", destination: "Solapur", seats: 80 },
-      { train: "Local F", origin: "Gandhinagar", destination: "Surat", seats: 50 },
-      { train: "Express G", origin: "Ahmedabad", destination: "Solapur", seats: 120 },
-      { train: "Superfast H", origin: "Mumbai", destination: "Gandhinagar", seats: 90 },
-      { train: "Local I", origin: "Surat", destination: "Ahmedabad", seats: 60 },
-      { train: "Express J", origin: "Solapur", destination: "Gandhinagar", seats: 110 },
-      { train: "Superfast K", origin: "Mumbai", destination: "Surat", seats: 140 },
-      { train: "Local L", origin: "Ahmedabad", destination: "Gandhinagar", seats: 70 },
-      { train: "Express M", origin: "Gandhinagar", destination: "Solapur", seats: 160 },
-      { train: "Superfast N", origin: "Surat", destination: "Mumbai", seats: 180 },
-      { train: "Local O", origin: "Ahmedabad", destination: "Mumbai", seats: 130 },
-      { train: "Express P", origin: "Solapur", destination: "Ahmedabad", seats: 140 },
-      { train: "Superfast Q", origin: "Mumbai", destination: "Gandhinagar", seats: 120 },
-      { train: "Local R", origin: "Surat", destination: "Gandhinagar", seats: 90 },
-      { train: "Express S", origin: "Ahmedabad", destination: "Solapur", seats: 110 },
-      { train: "Superfast T", origin: "Mumbai", destination: "Surat", seats: 100 }
+      { train: "Express A", origin: "Solapur", destination: "Mumbai", classes: { Sleeper: 120, AC: 50, First: 30 } },
+      { train: "Superfast B", origin: "Ahmedabad", destination: "Surat", classes: { Sleeper: 80, AC: 40, First: 30 } },
+      { train: "Local C", origin: "Gandhinagar", destination: "Mumbai", classes: { Sleeper: 60, AC: 40, First: 30 } },
+      { train: "Express D", origin: "Mumbai", destination: "Ahmedabad", classes: { Sleeper: 70, AC: 20, First: 10 } },
+      { train: "Superfast E", origin: "Surat", destination: "Solapur", classes: { Sleeper: 40, AC: 30, First: 10 } },
+      { train: "Local F", origin: "Gandhinagar", destination: "Surat", classes: { Sleeper: 20, AC: 20, First: 10 } },
+      { train: "Express G", origin: "Ahmedabad", destination: "Solapur", classes: { Sleeper: 60, AC: 40, First: 20 } },
+      { train: "Superfast H", origin: "Mumbai", destination: "Gandhinagar", classes: { Sleeper: 30, AC: 40, First: 20 } },
+      { train: "Local I", origin: "Surat", destination: "Ahmedabad", classes: { Sleeper: 20, AC: 30, First: 10 } },
+      { train: "Express J", origin: "Solapur", destination: "Gandhinagar", classes: { Sleeper: 50, AC: 40, First: 20 } },
+      { train: "Superfast K", origin: "Mumbai", destination: "Surat", classes: { Sleeper: 60, AC: 60, First: 20 } },
+      { train: "Local L", origin: "Ahmedabad", destination: "Gandhinagar", classes: { Sleeper: 30, AC: 30, First: 10 } },
+      { train: "Express M", origin: "Gandhinagar", destination: "Solapur", classes: { Sleeper: 80, AC: 60, First: 20 } },
+      { train: "Superfast N", origin: "Surat", destination: "Mumbai", classes: { Sleeper: 90, AC: 70, First: 20 } },
+      { train: "Local O", origin: "Ahmedabad", destination: "Mumbai", classes: { Sleeper: 60, AC: 60, First: 10 } },
+      { train: "Express P", origin: "Solapur", destination: "Ahmedabad", classes: { Sleeper: 70, AC: 60, First: 10 } },
+      { train: "Superfast Q", origin: "Mumbai", destination: "Gandhinagar", classes: { Sleeper: 60, AC: 50, First: 10 } },
+      { train: "Local R", origin: "Surat", destination: "Gandhinagar", classes: { Sleeper: 30, AC: 40, First: 20 } },
+      { train: "Express S", origin: "Ahmedabad", destination: "Solapur", classes: { Sleeper: 60, AC: 40, First: 10 } },
+      { train: "Superfast T", origin: "Mumbai", destination: "Surat", classes: { Sleeper: 50, AC: 40, First: 10 } }
     ];
 
-    // Save dummy data to localStorage if not present
-    if (!localStorage.getItem('trains')) {
-      localStorage.setItem('trains', JSON.stringify(dummyTrains));
-    }
+    // Save dummy data in localStorage
+    localStorage.setItem('trains', JSON.stringify(dummyTrains));
 
     function toTitleCase(str) {
       return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -142,14 +137,26 @@
     function searchTrains() {
       let origin = document.getElementById('searchOrigin').value.trim();
       let destination = document.getElementById('searchDestination').value.trim();
+      let travelDate = document.getElementById('searchDate').value.trim();
       const allowedLocations = ["Solapur", "Ahmedabad", "Mumbai", "Gandhinagar", "Surat"];
 
-      // Normalize input to Title Case
       origin = toTitleCase(origin);
       destination = toTitleCase(destination);
 
       if (!allowedLocations.includes(origin) || !allowedLocations.includes(destination)) {
         alert("No Train for that route");
+        document.getElementById('trainResults').innerHTML = '';
+        return;
+      }
+
+      if (origin === destination) {
+        alert("Origin and Destination cannot be the same!");
+        document.getElementById('trainResults').innerHTML = '';
+        return;
+      }
+
+      if (!travelDate) {
+        alert("Please select a travel date.");
         document.getElementById('trainResults').innerHTML = '';
         return;
       }
@@ -166,18 +173,49 @@
       }
 
       let html = '';
-      results.forEach(t => {
+      results.forEach((t, idx) => {
         html += `
           <div class="card mb-2">
             <div class="card-body">
               <h5 class="card-title">${t.train}</h5>
               <p class="card-text">From: <b>${t.origin}</b> &rarr; To: <b>${t.destination}</b></p>
-              <p class="card-text">Seats Available: <b>${t.seats}</b></p>
+              <p class="card-text">Travel Date: <b>${travelDate}</b></p>
+              <button class="btn btn-link p-0" type="button" onclick="toggleDetails('details${idx}')">View Seat Availability</button>
+              <div id="details${idx}" style="display:none; margin-top:10px;">
+                <table class="table table-bordered table-sm mb-2">
+                  <thead><tr><th>Class</th><th>Seats Available</th><th>Action</th></tr></thead>
+                  <tbody>
+                    ${Object.entries(t.classes).map(([cls, seats]) => `
+                      <tr>
+                        <td>${cls}</td>
+                        <td>${seats}</td>
+                        <td><button class="btn btn-custom btn-sm" onclick="bookNow('${t.train}','${cls}','${origin}','${destination}','${travelDate}')">Book Ticket</button></td>
+                      </tr>
+                    `).join('')}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         `;
       });
       document.getElementById('trainResults').innerHTML = html;
+    }
+
+    // Toggle seat details
+    function toggleDetails(id) {
+      var el = document.getElementById(id);
+      if (el.style.display === 'none') {
+        el.style.display = 'block';
+      } else {
+        el.style.display = 'none';
+      }
+    }
+
+    // Book now: save selection and go to booking page
+    function bookNow(train, cls, origin, destination, date) {
+      localStorage.setItem('selectedBooking', JSON.stringify({train, cls, origin, destination, date}));
+      window.location.href = 'customer/book-ticket.html';
     }
   </script>
 

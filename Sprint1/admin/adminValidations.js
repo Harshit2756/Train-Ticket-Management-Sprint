@@ -1,9 +1,9 @@
 
 // Admin Login form validation
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const adminLoginForm = document.getElementById('adminLoginForm');
     if (adminLoginForm) {
-        adminLoginForm.addEventListener('submit', function(e) {
+        adminLoginForm.addEventListener('submit', function (e) {
             e.preventDefault();
             const username = document.getElementById('adminUsername').value.trim();
             if (validateAdminLoginForm()) {
@@ -45,10 +45,10 @@ function validateAdminLoginForm() {
 }
 
 // Admin Profile Update form validation
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const profileForm = document.getElementById('profileForm');
     if (profileForm) {
-        profileForm.addEventListener('submit', function(e) {
+        profileForm.addEventListener('submit', function (e) {
             e.preventDefault();
             if (validateAdminProfileForm()) {
                 alert('Profile updated successfully!');

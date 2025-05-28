@@ -79,11 +79,11 @@
             <i class="bi bi-house-fill"></i> Home
           </a>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link active" href="book-ticket.html">
             <i class="bi bi-ticket-detailed-fill"></i> Book Ticket
           </a>
-        </li>
+        </li> -->
         <li class="nav-item">
           <a class="nav-link" href="view-tickets.html">
             <i class="bi bi-list-ul"></i> View Tickets
@@ -91,7 +91,7 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" href="../TrainSearch&SeatAvailability.html">
-            <i class="bi bi-search"></i> Search Train
+            <i class="bi bi-search"></i> Search & Book Tickets
           </a>
         </li>
         <li class="nav-item">
@@ -275,32 +275,32 @@
       window.location.href = "confirmation.html";
     });
 
-    
+
     const today = new Date().toISOString().split("T")[0];
     document.getElementById('date').setAttribute('min', today);
 
 
-    
-  document.getElementById("bookingForm").addEventListener("submit", function (e) {
+
+    document.getElementById("bookingForm").addEventListener("submit", function (e) {
       e.preventDefault();
 
       const bookingData = {
-          bookingId: "BK" + Math.floor(Math.random() * 1000000),  // example ID generator
-          trainId: document.getElementById("trainSelect").value,
-          userId: "USER123",  // replace with actual logged-in user ID
-          origin: document.getElementById("boarding").value,
-          destination: document.getElementById("destination").value,
-          date: document.getElementById("date").value,
-          numTickets: document.getElementById("numTickets").value,
-          name: document.getElementById("name").value,
-          category: document.getElementById("category").value
+        bookingId: "BK" + Math.floor(Math.random() * 1000000),  // example ID generator
+        trainId: document.getElementById("trainSelect").value,
+        userId: "USER123",  // replace with actual logged-in user ID
+        origin: document.getElementById("boarding").value,
+        destination: document.getElementById("destination").value,
+        date: document.getElementById("date").value,
+        numTickets: document.getElementById("numTickets").value,
+        name: document.getElementById("name").value,
+        category: document.getElementById("category").value
       };
 
       localStorage.setItem("bookingData", JSON.stringify(bookingData));
 
       // Redirect to confirm page
       window.location.href = "confirmation.html";
-  });
+    });
 
 
   </script>
